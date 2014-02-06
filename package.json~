@@ -1,0 +1,12 @@
+{
+  "name": "ws_node",
+  "version": "0.0.0",
+  "description": "webservices node pour les bannieres",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "numbate team",
+  "license": "BSD"
+}
