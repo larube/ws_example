@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<title>Profile</title>
+		<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/select2/select2.css">
+	<style>
+		body 		{ padding-top:80px; word-wrap:break-word; }
+	</style>
+</head>
+<body>
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+	<div class="container">
+	<div class="navbar-header">
+	<a class="navbar-brand" href="#"></a>
+	</div>
+	<div class="collapse navbar-collapse">
+	<ul class="nav navbar-nav">
+		<li class="active"><a href="/profile">Profile</a></li>
+	</ul>
+	</div><!-- /.nav-collapse -->
+	</div><!-- /.container -->
+</div>
+<div class="container">
+	<div class="jumbotron text-center">
+		<form action="/user/getAllFromCampaign" method="post">
+		<div class="form-group">
+			<label>Campagne</label>
+			<select class="form-control" name="campaignId" id="campaigns">
+				<% for(var i=0; i < campaigns.length; i++) { %>
+					<option value="<%= campaigns[i].id %>"><%= campaigns[i].name %></option>
+				<% } %>
+			</select>
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-warning btn-lg">Get CSV</button>
+		</div>
+	</form>
+	</div>
+
+</div>
+	<script src="/jquery/jquery.js"></script>
+	<script src="/select2/select2.min.js"></script>
+	<script>
+		  $(document).ready(function() { $("#campaigns").select2(); });
+	</script>
+
+
+</body>
+</html>

@@ -24,7 +24,7 @@ module.exports = function(app, db, config, mongoose) {
 	};
 
 	var checkToken  =  function(value, callback){
-		TokenModel.findOne({value:value},function(err,doc){
+		/*TokenModel.findOne({value:value},function(err,doc){
 			console.log(doc);
       			if(doc){
       				callback(doc);
@@ -33,7 +33,9 @@ module.exports = function(app, db, config, mongoose) {
       				console.log("No Valid Token");
       				return false;
       			}
-    		});
+    		});*/
+		 callback();
+
 	};
 
 	var removeOldTokens = function(dateNow){

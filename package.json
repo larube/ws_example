@@ -9,9 +9,16 @@
   "repository": "",
   "author": "numbate team",
   "license": "BSD",
-  "dependencies" :{
-   	"express" : "latest",
-	"mongoose" : "latest",
-        "cron"        : "latest"
-   } 
+  "dependencies": {
+    "express": "latest",
+    "mongoose": "latest",
+    "cron": "latest",
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "bcrypt-nodejs": "latest",
+    "ejs": "~0.8.5",
+    "connect-flash": "~0.1.1",
+    "curlrequest": "~0.4.1",
+    "csv": "~0.3.7"
+  }
 }

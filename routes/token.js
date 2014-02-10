@@ -1,4 +1,4 @@
-module.exports = function(app, models) {
+module.exports = function(app, models, config, passport, isLoggedIn) {
 	"use strict";
 
 	app.post('/token/insert/:id', function(req, res){

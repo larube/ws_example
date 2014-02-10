@@ -1,9 +1,12 @@
-module.exports = function(app, models) {
+module.exports = function(app, models, config, passport, isLoggedIn) {
+
 	"use strict";
 
 	app.post('/user/add/:id', function(req, res){
 
-		var campaignId = req.params.id;
+		var campaignId = parseInt(req.params.id,10);
+		
+		//var campaignId = 10;
 		var token = "";
 		var origin = (req.headers.origin || "*");
 
@@ -21,15 +24,55 @@ module.exports = function(app, models) {
 			}
 		);
 
+		var email = "guillaume@example.com"
 
-		var email = "test@example.com"
-
-		var user = {email : email};
+		var user = {email : email, campaignId : campaignId};
 
 		//TODO : add Token from post request.
-		models.Token.checkToken("testtttt", function(token){
-			 models.User.addUser(user.email, user.first, user.last)
+		models.Token.checkToken("edede", function(token){
+			models.User.addUser(user.email, user.first, user.last, campaignId);
 		});
 	});
+
+
+	app.get('/user/getFromCampaign',  isLoggedIn, function(req, res){
+		var 	curl 		= require('curlrequest');
+			
+		var options = {
+			url : config.WS_GET_CAMPAIGNS
+		};
+
+		curl.request(options, function (err, campaigns) {
+			if (err){
+				console.log(err);
+				res.send(err);
+				return;
+			}
+			campaigns = JSON.parse(campaigns);
+			res.render('getUsersFromCampaign.ejs', {
+				campaigns : campaigns
+			});
+		});	
+	});
+
+	app.post('/user/getAllFromCampaign', isLoggedIn, function(req, res) {
+		var campaignId = parseInt(req.body.campaignId,10);
+		models.User.getUsersFromCampaign(campaignId, function(users){
+			var csv = require('csv'); 
+			var dataUsers ="";
+
+			for(var i=0; i < users.length;i++){
+				dataUsers+='"'+users[i].email+'"';
+				if(i!=(users.length)-1){
+					dataUsers+=";\n"
+				}
+			}
+			 var filename = 'users_'+campaignId+'.csv';
+  			res.attachment(filename);
+  			res.end(dataUsers, 'UTF-8');
+
+		});
+	});
+
 
 };
