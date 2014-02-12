@@ -51,11 +51,19 @@ module.exports = function(app, db, config, mongoose) {
 
 		});
 	};
+        
+
+	var removeToken = function(token){
+            TokenModel.remove({ value: token }, function (err) {
+                        if(err) throw err;
+                });
+	};
 
 	return {
 		addToken 		: addToken,
 		checkToken 		: checkToken,
-		removeOldTokens	: removeOldTokens
+		removeOldTokens	: removeOldTokens,
+		removeToken	: removeToken
 	}
 
 

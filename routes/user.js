@@ -5,9 +5,11 @@ module.exports = function(app, models, config, passport, isLoggedIn) {
 	app.post('/user/add/:id', function(req, res){
 
 		var campaignId = parseInt(req.params.id,10);
-		
-		//var campaignId = 10;
-		var token = "";
+                
+		var token =  req.body.token;
+		var email =  req.body.email;
+		var firstname =  req.body.firstname;
+		var lastname =  req.body.lastname;
 		var origin = (req.headers.origin || "*");
 
 		//TODO : add Token from post request, email, 
@@ -23,14 +25,19 @@ module.exports = function(app, models, config, passport, isLoggedIn) {
 				"content-length": 0
 			}
 		);
+        
 
-		var email = "guillaume@example.com"
-
-		var user = {email : email, campaignId : campaignId};
+                var user = {
+                    email       :   email,
+                    firstname   :   firstname,
+                    lastname    :   lastname,
+                };
 
 		//TODO : add Token from post request.
-		models.Token.checkToken("edede", function(token){
-			models.User.addUser(user.email, user.first, user.last, campaignId);
+		models.Token.checkToken(token, function(token){
+			models.User.addUser(user,campaignId,token.value,function(token) {
+                            models.Token.removeToken(token)
+                        });
 		});
 	});
 

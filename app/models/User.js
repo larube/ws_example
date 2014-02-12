@@ -1,15 +1,13 @@
 module.exports = function(app, db, config, mongoose) {
 
-	var UserSchema = new mongoose.Schema({
-		email:{ type: String, unique: true },
-		name: 	{
-				first 	: { type: String, required : false },
-				last 	: { type: String, required : false }
-			},
-
-		campaigns : { type : Array }
-
-	});
+    var UserSchema = new mongoose.Schema({
+        email: {type: String, unique: true},
+        campaigns: {type: Array},
+        name: {
+            firstname: {type: String, required: false},
+            lastname: {type: String, required: false}
+        }
+    });
 
 	var UserModel = mongoose.model('User', UserSchema);
 
@@ -21,27 +19,27 @@ module.exports = function(app, db, config, mongoose) {
 	};
 
 
-	var addUser =  function(email, firstName, lastName, campaign){
-		console.log("adding"+ email);
-		UserModel.findOne({email : email}, {}, function(err, user){
+	var addUser =  function(user, campaignId, token, callback){
+		console.log("adding"+ user.email);
+		UserModel.findOne({email : user.email}, {}, function(err, user){
 			if(!user){
 				var user = new UserModel({
 
-					email : email,
+					email : user.email,
 
 					name :{
-						first: firstName,
-		       				last: lastName,
+						firstName: user.firstname,
+		       				lastName: user.lastname,
 					},
 
 				});
 
-				user.campaigns.push(campaign)
+				user.campaigns.push(campaignId)
 				user.save(registerCallback);
 				console.log('Saving user');
 			}
 			else{
-				UserModel.update({email : email}, {$push: {campaigns : campaign}}, function(err){
+				UserModel.update({email : user.email}, {$push: {campaigns : campaignId}}, function(err){
 					if (err) throw err;
 					else console.log("succesfully updated");
 				});

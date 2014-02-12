@@ -3,7 +3,8 @@ module.exports = function(app, models, config, passport, isLoggedIn) {
 
 	app.post('/token/insert/:id', function(req, res){
 
-		var campaignId = req.params.id;
+		var campaignId = parseInt(req.params.id,10);
+                var token = req.body.token;
 		var origin = (req.headers.origin || "*");
 		
 		//TODO : add Token from post request.
@@ -21,7 +22,7 @@ module.exports = function(app, models, config, passport, isLoggedIn) {
 		);
 
 		//TODO : add Token from post request.
-		models.Token.addToken('testwaiaiaii666', campaignId);
+		models.Token.addToken(token, campaignId);
 	});
 
 };
