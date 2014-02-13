@@ -3,10 +3,16 @@ module.exports = function(app, models, config, passport, isLoggedIn) {
 
 	app.get('/monitoring/userEmail', function(req, res){
             
-            var token = "ohoh"+(new Date()).getTime()+"fezfzef";
+            var token = (new Date()).getTime();
             var campaignId = 1;
 		
-		models.Token.addToken(token, campaignId);
+		models.Token.addToken(token, campaignId,function(token){
+                    models.Token.checkToken(token, function(token){
+                            models.User.addUser(user,campaignId,token.value,function(token) {
+                                models.Token.removeToken(token);
+                            });
+                    });
+                });
                 
                 
                 var user = {
@@ -18,7 +24,7 @@ module.exports = function(app, models, config, passport, isLoggedIn) {
 		//TODO : add Token from post request.
 		models.Token.checkToken(token, function(token){
 			models.User.addUser(user,campaignId,token.value,function(token) {
-                            models.Token.removeToken(token)
+                            models.Token.removeToken(token);
                         });
 		});
                 res.end();

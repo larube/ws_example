@@ -7,7 +7,7 @@ module.exports = function(app, db, config, mongoose) {
 
 	var TokenModel = mongoose.model('Token', TokenSchema);
 
-	var addToken  =  function(value,  campaignId){
+	var addToken  =  function(value,  campaignId, callback){
 		console.log("adding"+ value);
 
 		var token = new TokenModel({
@@ -18,7 +18,10 @@ module.exports = function(app, db, config, mongoose) {
 		token.save(function(err, data){
 			if(err) throw err;
 			else 
-				console.log('adding token');
+                        console.log('adding token');
+                    if(callback){
+                        callback(value);
+                    }
 
 		});
 	};
