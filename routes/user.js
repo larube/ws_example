@@ -12,7 +12,7 @@ module.exports = function(app, models, config, passport, isLoggedIn) {
 		var lastname =  req.body.lastname;
 		var origin = (req.headers.origin || "*");
 
-		//TODO : add Token from post request, email, 
+            //TODO : add Token from post request, email, 
 
 		res.writeHead(
 			"204",
@@ -39,6 +39,7 @@ module.exports = function(app, models, config, passport, isLoggedIn) {
                             models.Token.removeToken(token)
                         });
 		});
+                res.end();
 	});
 
 

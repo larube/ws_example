@@ -21,9 +21,9 @@ module.exports = function(app, db, config, mongoose) {
 
 	var addUser =  function(user, campaignId, token, callback){
 		console.log("adding"+ user.email);
-		UserModel.findOne({email : user.email}, {}, function(err, user){
-			if(!user){
-				var user = new UserModel({
+		UserModel.findOne({email : user.email}, {}, function(err, userMongo){
+			if(!userMongo){
+				var newUser = new UserModel({
 
 					email : user.email,
 
@@ -34,14 +34,15 @@ module.exports = function(app, db, config, mongoose) {
 
 				});
 
-				user.campaigns.push(campaignId)
-				user.save(registerCallback);
+				newUser.campaigns.push(campaignId)
+				newUser.save(registerCallback);
 				console.log('Saving user');
 			}
 			else{
-				UserModel.update({email : user.email}, {$push: {campaigns : campaignId}}, function(err){
+				UserModel.update({email : user.email}, {$addToSet: {campaigns : campaignId}}, function(err){
 					if (err) throw err;
 					else console.log("succesfully updated");
+                                        callback(token);
 				});
 			}
 		})
