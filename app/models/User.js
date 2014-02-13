@@ -42,9 +42,9 @@ module.exports = function(app, db, config, mongoose) {
 				UserModel.update({email : user.email}, {$addToSet: {campaigns : campaignId}}, function(err){
 					if (err) throw err;
 					else console.log("succesfully updated");
-                                        callback(token);
 				});
 			}
+                        callback(token);
 		})
 	};
 
