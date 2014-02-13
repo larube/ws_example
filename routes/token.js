@@ -23,6 +23,7 @@ module.exports = function(app, models, config, passport, isLoggedIn) {
 
 		//TODO : add Token from post request.
 		models.Token.addToken(token, campaignId);
+                res.end();
 	});
 
 };

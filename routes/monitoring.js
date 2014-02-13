@@ -1,41 +1,29 @@
 module.exports = function(app, models, config, passport, isLoggedIn) {
-
 	"use strict";
 
-	app.get('/', function(req, res) {
-		res.render('index.ejs');
-	});
+	app.get('/monitoring/userEmail', function(req, res){
+            
+            var token = "ohoh"+(new Date()).getTime()+"fezfzef";
+            var campaignId = 1;
+		
+		models.Token.addToken(token, campaignId);
+                
+                
+                var user = {
+                    email       :   token,
+                    firstname   :   "Yaga",
+                    lastname    :   "Ranjit",
+                };
 
-/*	app.post('/signup', passport.authenticate('local-signup', {
-			successRedirect : '/profile', 
-			failureRedirect : '/signup', 
-			failureFlash : true 
-	}));
-
-	app.get('/signup', function(req, res) {
-		res.render('signup.ejs', { message: req.flash('signupMessage') });
-	});
-*/
-	app.get('/login', function(req, res) {
-		res.render('login.ejs', { message: req.flash('loginMessage') }); 
-	});
-
-	app.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/profile', 
-		failureRedirect : '/login', 
-		failureFlash : true 
-	}));
-
-	app.get('/logout', function(req, res) {
-		req.logout();
-		res.redirect('/');
-	});
-
-	app.get('/profile', isLoggedIn, function(req, res) {
-		res.render('profile.ejs', {
-			user : req.user
+		//TODO : add Token from post request.
+		models.Token.checkToken(token, function(token){
+			models.User.addUser(user,campaignId,token.value,function(token) {
+                            models.Token.removeToken(token)
+                        });
 		});
+                res.end();
+		//TODO : add Token from post request.
+		//models.Token.addToken(token, campaignId);
 	});
-
 
 };
